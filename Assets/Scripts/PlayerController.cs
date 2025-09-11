@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-
+﻿using System.Collections;
+using TMPro;
+using UnityEngine;
 // Include the namespace required to use Unity UI
 using UnityEngine.UI;
-
-using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 	
@@ -47,9 +46,20 @@ public class PlayerController : MonoBehaviour {
 		rb.AddForce (movement * speed);
 	}
 
-	// When this game object intersects a collider with 'is trigger' checked, 
-	// store a reference to that collider in a variable named 'other'..
-	void OnTriggerEnter(Collider other) 
+    private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.CompareTag("Enemy"))
+		{
+			Destroy(gameObject);
+            winText.gameObject.SetActive(true);
+            winText.text = "You Lose!";
+
+        }
+    }
+
+    // When this game object intersects a collider with 'is trigger' checked, 
+    // store a reference to that collider in a variable named 'other'..
+    void OnTriggerEnter(Collider other) 
 	{
 		// ..and if the game object we intersect has the tag 'Pick Up' assigned to it..
 		if (other.gameObject.CompareTag ("Pick Up"))
@@ -72,10 +82,12 @@ public class PlayerController : MonoBehaviour {
 		countText.text = "Count: " + count.ToString ();
 
 		// Check if our 'count' is equal to or exceeded 12
-		if (count >= 12) 
+		if (count >= 15) 
 		{
 			// Set the text value of our 'winText'
 			winText.text = "You Win!";
-		}
-	}
+            Destroy(GameObject.FindGameObjectWithTag("Enemy"));
+
+        }
+    }
 }
