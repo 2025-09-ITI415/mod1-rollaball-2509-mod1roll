@@ -11,6 +11,9 @@ public class PlayerController : MonoBehaviour {
 	public float speed;
 	public Text countText;
 	public Text winText;
+	public Text time;
+	public bool gameWon;
+	public int  seconds;
 
 	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
 	private Rigidbody rb;
@@ -24,6 +27,7 @@ public class PlayerController : MonoBehaviour {
 
 		// Set the count to zero 
 		count = 0;
+	
 
 		// Run the SetCountText function to update the UI (see below)
 		SetCountText ();
@@ -31,6 +35,11 @@ public class PlayerController : MonoBehaviour {
 		// Set the text property of our Win Text UI to an empty string, making the 'You Win' (game over message) blank
 		winText.text = "";
 	}
+
+	
+
+
+	
 
 	// Each physics step..
 	void FixedUpdate ()
@@ -72,10 +81,11 @@ public class PlayerController : MonoBehaviour {
 		countText.text = "Count: " + count.ToString ();
 
 		// Check if our 'count' is equal to or exceeded 12
-		if (count >= 12) 
+		if (count >= 29)
 		{
 			// Set the text value of our 'winText'
 			winText.text = "You Win!";
+			gameWon = true;
 		}
 	}
 }
