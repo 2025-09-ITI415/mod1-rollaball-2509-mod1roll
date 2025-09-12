@@ -2,8 +2,9 @@
 
 // Include the namespace required to use Unity UI
 using UnityEngine.UI;
-
+using System.Collections.Generic;
 using System.Collections;
+
 
 public class PlayerController : MonoBehaviour {
 	
@@ -11,9 +12,15 @@ public class PlayerController : MonoBehaviour {
 	public float speed;
 	public Text countText;
 	public Text winText;
-	public Text time;
+	public Text timeText;
 	public bool gameWon;
-	public int  seconds;
+	public bool gameStart;
+	public Text timer;
+    public float secondsPassed; 
+	public int sillytime;
+	public GameObject rules;
+	public GameObject winPanel;
+
 
 	// Create private references to the rigidbody component on the player, and the count of pick up objects picked up so far
 	private Rigidbody rb;
@@ -25,25 +32,35 @@ public class PlayerController : MonoBehaviour {
 		// Assign the Rigidbody component to our private rb variable
 		rb = GetComponent<Rigidbody>();
 
+
 		// Set the count to zero 
 		count = 0;
-	
-
+		gameStart = false;
+		gameWon = false;
+		
 		// Run the SetCountText function to update the UI (see below)
+		
 		SetCountText ();
+		
 
 		// Set the text property of our Win Text UI to an empty string, making the 'You Win' (game over message) blank
 		winText.text = "";
 	}
 
-	
+	void Update(){
 
-
-	
-
+		if (Input.anyKeyDown){
+			rules.SetActive(false);
+			gameStart= true;
+		} if (gameWon == false && gameStart == true){
+				secondsPassed = secondsPassed + 1 * Time.deltaTime;
+				SetTimeText();
+		}
+	}
 	// Each physics step..
 	void FixedUpdate ()
 	{
+		if (gameStart == true){
 		// Set some local float variables equal to the value of our Horizontal and Vertical Inputs
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
@@ -54,6 +71,8 @@ public class PlayerController : MonoBehaviour {
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
 		rb.AddForce (movement * speed);
+
+		}
 	}
 
 	// When this game object intersects a collider with 'is trigger' checked, 
@@ -74,6 +93,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+
 	// Create a standalone function that can update the 'countText' UI and check if the required amount to win has been achieved
 	void SetCountText()
 	{
@@ -81,11 +101,23 @@ public class PlayerController : MonoBehaviour {
 		countText.text = "Count: " + count.ToString ();
 
 		// Check if our 'count' is equal to or exceeded 12
-		if (count >= 29)
+		if (count >= 15)
 		{
 			// Set the text value of our 'winText'
+			winPanel.SetActive(true);
 			winText.text = "You Win!";
+			sillytime = (int)secondsPassed;
+			timeText.text = "Final Time: " + sillytime.ToString(); 
 			gameWon = true;
 		}
 	}
+
+	void SetTimeText()
+	{
+		sillytime = (int)secondsPassed;
+		timer.text = "Time: " + sillytime.ToString();
+
+	
+
+}
 }

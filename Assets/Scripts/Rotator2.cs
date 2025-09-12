@@ -1,10 +1,10 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class Rotator : MonoBehaviour {
+public class Rotator2 : MonoBehaviour {
 
-	public float howFast = 1;
-		
+	public float howFast = -1;
+
 	// Before rendering each frame..
 	void Update () 
 	{
@@ -12,11 +12,11 @@ public class Rotator : MonoBehaviour {
 		// 30 in the Y axis and 450in the Z axis, multiplied by deltaTime in order to make it per second
 		// rather than per frame.
 		transform.Rotate (new Vector3 (15, 30, 45) * Time.deltaTime);
-		LeftnRight();
-	
+		LeftnRight2();
+
 	}
 
-	void LeftnRight()
+	void LeftnRight2()
 {
 	Vector3 pos = transform.position; 
 	pos.x += howFast * Time.deltaTime;
