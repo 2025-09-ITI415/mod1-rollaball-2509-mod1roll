@@ -45,6 +45,11 @@ public class PlayerController : MonoBehaviour {
 		// Add a physical force to our Player rigidbody using our 'movement' Vector3 above, 
 		// multiplying it by 'speed' - our public player speed that appears in the inspector
 		rb.AddForce (movement * speed);
+
+		if (transform.position.y < -20) {
+			count = 0;
+			SetCountText ();
+		}
 	}
 
 	// When this game object intersects a collider with 'is trigger' checked, 
@@ -59,6 +64,8 @@ public class PlayerController : MonoBehaviour {
 
 			// Add one to the score variable 'count'
 			count = count + 1;
+
+			speed = speed + 10;
 
 			// Run the 'SetCountText()' function (see below)
 			SetCountText ();
@@ -76,6 +83,9 @@ public class PlayerController : MonoBehaviour {
 		{
 			// Set the text value of our 'winText'
 			winText.text = "You Win!";
+		}
+		else if (count == 0) {
+			winText.text = "You Fell! Try Again!";
 		}
 	}
 }
